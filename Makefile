@@ -5,7 +5,7 @@ CC = gcc
 CFLAGS = -Wall
 
 # 定义目标文件名
-TARGET = main
+TARGET = write
 
 # 定义输出目录
 OUT_DIR = out

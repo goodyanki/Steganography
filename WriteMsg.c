@@ -2,11 +2,6 @@
 #include <string.h>
 
 
-void stego(char *s, FILE *fp)
-{
-    
-}
-
 
 int main(int argc, char *argv[])
 {
@@ -19,14 +14,14 @@ int main(int argc, char *argv[])
     FILE *fp = NULL;
     fp = fopen(argv[2], "r");
     char str[255];
-    int lineCount = 1;
 
-    char col[] = {0};
+    int lineCount = 1;
     int colInt  = 0;
-    char row[] = {0};
     int rowInt = 0;
     printf("%s\n", secret);
-
+    int value = 0;
+    FILE *output = NULL;
+    output = fopen(argv[3], "w+r");
 
     if (fp == NULL) 
     {
@@ -44,6 +39,7 @@ int main(int argc, char *argv[])
             if(str[0] ==  'P' && str[1] == '6')
             {
                 printf("It is a PPM FILE\n");
+                value++;
                 sleep(1);
             }
 
@@ -72,20 +68,24 @@ int main(int argc, char *argv[])
                 printf("Row is %d\n", rowInt);
                 sleep(1);
                 lineCount++;
-                continue;
+                value++;
             }
 
         }
 
         if(lineCount == 3)
         {
+            if(colInt == 0)
+            {
+                colInt = 100 * (str[0] - '0') + 10 * (str[1] - '0' ) + (str[2] - '0');
+                printf("cow is %d\n", colInt);
+                sleep(1);
+                rowInt = 100 * (str[4] - '0') + 10 * (str[5] - '0' ) + (str[6] - '0');
+                printf("Row is %d\n", rowInt);
+                sleep(1);
+                value++;
+            }
             
-            colInt = 100 * (str[0] - '0') + 10 * (str[1] - '0' ) + (str[2] - '0');
-            printf("cow is %d\n", colInt);
-            sleep(1);
-            rowInt = 100 * (str[4] - '0') + 10 * (str[5] - '0' ) + (str[6] - '0');
-            printf("Row is %d\n", rowInt);
-            sleep(1);
 
         }
 
@@ -96,6 +96,7 @@ int main(int argc, char *argv[])
             {
                 printf("The maximum is color value is 255! \n");
                 sleep(1);
+                value++;
             }
             else
             {
@@ -117,17 +118,23 @@ int main(int argc, char *argv[])
 
     if(image_size > need_bits)
     {
+
         printf("Enough space to hide!\n");
         sleep(1);
+        value++;
+
     }
     else
     {
+
         printf("Not enogh space to hide!\n");
+
     }
 
-    while(image_size > need_bits)
+    printf("%d\n", value);
+    while(value == 4 && image_size > need_bits)
     {
-
+        stego("secret", fp, output);
     }
 
 
